@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+                <title>WKWebView中OC与JS交互</title>
+                </head>
+    
+    <style type="text/css">
+        .button {
+            background: #f5be14;
+            margin: 10px;
+            text-align: center;
+            width: 300px;
+            height: 44px;
+            line-height: 44px;
+            margin: 10px auto;
+            border-radius: 5px;
+        }
+    #setImage {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+    }
+    #setText {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+    }
+    </style>
+    
+    <body>
+        
+        <div class="button" onclick="firstClick()">今晚打老虎</div>
+        <div class="button" onclick="secondClick()">请用力的点我</div>
+        <div class="button" onclick="thirdClick()">弹我弹我</div>
+        <div class="button" onclick="forthClick()">选择图片</div>
+        <div class="button" onclick="callOCToCallJSClick()">调用OC执行JS来连接两个字符串</div>
+        <div id="setImage"></div>
+        <div id="setText"></div>
+    </body>
+    
+    <script type="text/javascript">
+        
+        function getText(index) {
+            return document.getElementsByClassName("button")[index].innerText;
+        }
+    
+    function firstClick() {
+        var action = "firstClick";
+        var token = getText(0);
+        var paras = getParams(action, token);
+        window.webkit.messageHandlers.firstClick.postMessage(paras);
+    }
+    
+    function secondClick() {
+        var action = "secondClick";
+        var token = getText(1);
+        var paras = getParams(action, token);
+        window.webkit.messageHandlers.secondClick.postMessage(paras);
+    }
+    
+    function thirdClick() {
+        var action = "thirdClick";
+        var token = getText(2);
+        var paras = getParams(action, token);
+        window.webkit.messageHandlers.thirdClick.postMessage(paras);
+    }
+    
+    function forthClick() {
+        var action = "forthClick";
+        var token = getText(3);
+        var paras = getParams(action, token);
+        window.webkit.messageHandlers.forthClick.postMessage(paras);
+    }
+    
+    function callOCToCallJSClick() {
+        var action = "callOCToCallJSClick";
+        var token = getText(4);
+        var paras = getParams(action, token);
+        window.webkit.messageHandlers.callOCToCallJSClick.postMessage(paras);
+    }
+    
+    function getParams(action, token) {
+        var paras = {
+            'action' : action,
+            'token' : token
+        }
+        return paras;
+    }
+    
+    function showImageOnDiv(imageStr) {
+        var imgDiv = document.getElementById("setImage");
+        imgDiv.innerHTML = "<image style='width:200px;' src='data:image/png;base64,"+imageStr+"'>";
+    }
+    
+    function ocToJS(str1, str2) {
+        var str = "str1" + " OCTOJS " + "str2";
+        var textDiv = document.getElementById("setText");
+        textDiv.innerHTML = str;
+    }
+    
+        </script>
+    
+</html>
